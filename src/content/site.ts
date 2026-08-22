@@ -1,16 +1,34 @@
+function firstValidUrl(...values: Array<string | undefined>) {
+  for (const value of values) {
+    const trimmed = value?.trim();
+    if (!trimmed) continue;
+    try {
+      const url = new URL(trimmed.includes("://") ? trimmed : `https://${trimmed}`);
+      return url.origin;
+    } catch {
+      continue;
+    }
+  }
+  return "http://localhost:3000";
+}
+
+export function getSiteUrl() {
+  return firstValidUrl(
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL,
+    process.env.VERCEL_URL,
+  );
+}
+
 export const site = {
   name: "London Prime Cleaning",
   legalName: "London Prime Cleaning Ltd",
   tagline: "Commercial and residential cleaning across Greater London.",
   description:
     "Insured, DBS-checked cleaning teams for offices, homes, hospitality and public venues across Greater London. Request a free quote in minutes.",
-  url:
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    (process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : "http://localhost:3000"),
+  get url() {
+    return getSiteUrl();
+  },
   phone: process.env.NEXT_PUBLIC_PHONE ?? "+442000000000",
   phoneDisplay: "020 0000 0000",
   email: process.env.NEXT_PUBLIC_EMAIL ?? "hello@londonprimecleaning.co.uk",
@@ -50,7 +68,7 @@ export const site = {
     "Richmond upon Thames",
     "Croydon",
   ],
-} as const;
+};
 
 export const nav = [
   { href: "/", label: "Home" },

@@ -4,7 +4,7 @@ import { CookieBanner } from "@/components/layout/CookieBanner";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MobileCTA, SkipLink } from "@/components/layout/MobileCTA";
-import { site } from "@/content/site";
+import { getSiteUrl, site } from "@/content/site";
 import { pageMetadata } from "@/lib/seo";
 import "./globals.css";
 
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     description: site.description,
     path: "/",
   }),
-  metadataBase: new URL(site.url),
+  metadataBase: new URL(getSiteUrl()),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

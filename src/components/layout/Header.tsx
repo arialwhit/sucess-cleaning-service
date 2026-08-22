@@ -37,10 +37,11 @@ export function Header() {
   }, [open]);
 
   return (
+    <>
     <header
       className={cn(
         "sticky top-0 z-40 transition-[background-color,box-shadow] duration-200",
-        scrolled ? "bg-white/92 shadow-[0_8px_30px_-18px_rgba(11,61,98,0.35)] backdrop-blur-md" : "bg-white",
+        scrolled && !open ? "bg-white/92 shadow-[0_8px_30px_-18px_rgba(11,61,98,0.35)] backdrop-blur-md" : "bg-white",
       )}
     >
       <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between gap-4 px-6 lg:h-[72px]">
@@ -115,8 +116,9 @@ export function Header() {
           {open ? <X size={22} /> : <List size={22} />}
         </button>
       </div>
+    </header>
       {open ? (
-        <div className="fixed inset-0 z-50 bg-navy-dark/96 px-6 pb-10 pt-6 text-white lg:hidden">
+        <div className="fixed inset-0 z-[60] overflow-y-auto bg-[#082C47] px-6 pb-28 pt-6 text-white lg:hidden">
           <div className="mx-auto flex max-w-[1280px] items-center justify-between">
             <Logo onDark />
             <button
@@ -129,17 +131,17 @@ export function Header() {
             </button>
           </div>
           <nav className="mx-auto mt-12 flex max-w-md flex-col gap-2" aria-label="Mobile">
-            {nav.map((item, index) => (
+            {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="font-heading text-3xl font-semibold tracking-tight text-white transition-transform duration-200"
-                style={{ animationDelay: `${index * 60}ms` }}
+                className="font-heading text-3xl font-semibold tracking-tight text-white"
               >
                 {item.label}
               </Link>
             ))}
-            <div className="mt-6 grid grid-cols-1 gap-2">
+            <p className="mt-8 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">Services</p>
+            <div className="mt-3 grid grid-cols-1 gap-2">
               {services.map((service) => (
                 <Link
                   key={service.slug}
@@ -159,6 +161,6 @@ export function Header() {
           </nav>
         </div>
       ) : null}
-    </header>
+    </>
   );
 }
